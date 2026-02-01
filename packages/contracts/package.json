@@ -1,0 +1,21 @@
+{
+  "name": "@open-wallet/contracts",
+  "version": "0.1.0",
+  "private": true,
+  "description": "OpenWallet smart contracts",
+  "scripts": {
+    "build": "forge build",
+    "test": "forge test",
+    "test:coverage": "forge coverage",
+    "clean": "forge clean",
+    "install:deps": "forge install OpenZeppelin/openzeppelin-contracts@v5.0.2 --no-commit",
+    "postinstall": "echo 'Run pnpm install:deps in packages/contracts to install Foundry dependencies'"
+  },
+  "keywords": [
+    "solidity",
+    "ethereum",
+    "foundry",
+    "agent-wallet",
+    "multisig"
+  ]
+}
