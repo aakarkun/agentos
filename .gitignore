@@ -17,17 +17,9 @@ out/
 .env
 .env.local
 .env.*.local
-
-# IDE
-.vscode/
-.idea/
-*.swp
-*.swo
-*~
-
-# OS
-.DS_Store
-Thumbs.db
+*/.env
+*/.env.local
+*/.env.*.local
 
 # Foundry
 cache/
