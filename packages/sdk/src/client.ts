@@ -1,9 +1,10 @@
-import { createPublicClient, createWalletClient, http, PublicClient, WalletClient, Address, Chain } from 'viem';
+import { createPublicClient, http, PublicClient, Address, Chain } from 'viem';
 import { base, baseSepolia } from 'viem/chains';
 import { AgentAPI } from './agent';
 import { HumanAPI } from './human';
 import { PolicyValidator } from './policy';
 import { SDKConfig, Proposal, ProposalStatus } from './types';
+import { agentWalletAbi } from './abis';
 
 /**
  * OpenWallet SDK Client
@@ -19,42 +20,31 @@ export class OpenWalletSDK {
 
   constructor(config: SDKConfig) {
     this.walletAddress = config.walletAddress;
-    
-    // Determine chain
-    const chainId = config.chainId || (process.env.NODE_ENV === 'production' ? base.id : baseSepolia.id);
+
+    const chainId = config.chainId ?? (process.env.NODE_ENV === 'production' ? base.id : baseSepolia.id);
     this.chain = chainId === base.id ? base : baseSepolia;
 
-    // Create public client
-    const rpcUrl = config.rpcUrl || this.chain.rpcUrls.default.http[0];
+    const rpcUrl = config.rpcUrl ?? this.chain.rpcUrls.default.http[0];
     this.publicClient = createPublicClient({
       chain: this.chain,
       transport: http(rpcUrl),
     });
   }
 
-  /**
-   * Get agent API (for agent operations)
-   */
-  asAgent(walletClient: WalletClient): AgentAPI {
+  asAgent(walletClient: { account?: { address: Address }; writeContract: unknown }): AgentAPI {
     if (!this._agent) {
-      this._agent = new AgentAPI(this.publicClient, walletClient, this.walletAddress);
+      this._agent = new AgentAPI(this.publicClient, walletClient as any, this.walletAddress);
     }
     return this._agent;
   }
 
-  /**
-   * Get human API (for human oversight operations)
-   */
-  asHuman(walletClient: WalletClient): HumanAPI {
+  asHuman(walletClient: { account?: { address: Address }; writeContract: unknown }): HumanAPI {
     if (!this._human) {
-      this._human = new HumanAPI(this.publicClient, walletClient, this.walletAddress);
+      this._human = new HumanAPI(this.publicClient, walletClient as any, this.walletAddress);
     }
     return this._human;
   }
 
-  /**
-   * Get policy validator (client-side guardrails)
-   */
   get policy(): PolicyValidator {
     if (!this._policy) {
       this._policy = new PolicyValidator(this.publicClient, this.walletAddress);
@@ -62,53 +52,49 @@ export class OpenWalletSDK {
     return this._policy;
   }
 
-  /**
-   * Wait for proposal state change
-   */
   async waitForProposal(
     proposalId: bigint,
     targetStatus?: ProposalStatus,
     timeout = 60000
   ): Promise<Proposal> {
-    const startTime = Date.now();
-    
-    while (Date.now() - startTime < timeout) {
-      const proposal = await this.getProposal(proposalId);
-      
-      if (targetStatus === undefined || proposal.status === targetStatus) {
-        return proposal;
-      }
-      
-      if (proposal.status === ProposalStatus.Executed || proposal.status === ProposalStatus.Rejected) {
-        return proposal;
-      }
-      
-      await new Promise(resolve => setTimeout(resolve, 1000));
+    const start = Date.now();
+    while (Date.now() - start < timeout) {
+      const p = await this.getProposal(proposalId);
+      if (targetStatus === undefined || p.status === targetStatus) return p;
+      if (p.status === ProposalStatus.Executed || p.status === ProposalStatus.Rejected) return p;
+      await new Promise((r) => setTimeout(r, 1000));
     }
-    
     throw new Error(`Timeout waiting for proposal ${proposalId}`);
   }
 
-  /**
-   * Get proposal details
-   */
   async getProposal(proposalId: bigint): Promise<Proposal> {
-    // This would use the contract ABI to read proposal
-    // For now, returning a placeholder structure
-    // In real implementation, this would call the contract
-    throw new Error('Not implemented - requires contract ABI');
+    const result = (await this.publicClient.readContract({
+      address: this.walletAddress,
+      abi: agentWalletAbi,
+      functionName: 'getProposal',
+      args: [proposalId],
+    })) as [bigint, Address, bigint, Address, `0x${string}`, bigint, number];
+    const [id, to, amount, token, contextHash, proposedAt, status] = result;
+    return {
+      id,
+      to,
+      amount,
+      token,
+      contextHash,
+      proposedAt,
+      status: status as ProposalStatus,
+    };
   }
 
-  /**
-   * Get wallet balance
-   */
   async getBalance(token?: Address): Promise<bigint> {
     if (token) {
-      // ERC20 balance
-      throw new Error('ERC20 balance not implemented - requires contract ABI');
-    } else {
-      // ETH balance
-      return await this.publicClient.getBalance({ address: this.walletAddress });
+      return (await this.publicClient.readContract({
+        address: token,
+        abi: [{ type: 'function', name: 'balanceOf', inputs: [{ name: 'account', type: 'address' }], outputs: [{ type: 'uint256' }] }],
+        functionName: 'balanceOf',
+        args: [this.walletAddress],
+      })) as bigint;
     }
+    return await this.publicClient.getBalance({ address: this.walletAddress });
   }
 }

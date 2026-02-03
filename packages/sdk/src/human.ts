@@ -1,85 +1,105 @@
 import { PublicClient, WalletClient, Address, Hash } from 'viem';
 import { Policy } from './types';
+import { agentWalletAbi } from './abis';
 
-/**
- * Human API - for human oversight operations
- */
+type WalletClientWithAccount = WalletClient & { account: { address: Address; type?: string } };
+
 export class HumanAPI {
   constructor(
     private publicClient: PublicClient,
-    private walletClient: WalletClient,
+    private walletClient: WalletClientWithAccount,
     private walletAddress: Address
   ) {}
 
-  /**
-   * Approve a pending transfer
-   */
+  private get account() {
+    const a = this.walletClient.account;
+    if (!a) throw new Error('Wallet client must have an account');
+    return a;
+  }
+
+  private writeParams() {
+    return { address: this.walletAddress as `0x${string}`, abi: agentWalletAbi, account: this.account, chain: this.walletClient.chain ?? undefined };
+  }
+
   async approveTransfer(proposalId: bigint): Promise<Hash> {
-    // This would use the contract ABI to encode and send the transaction
-    throw new Error('Not implemented - requires contract ABI');
+    return await this.walletClient.writeContract({
+      ...this.writeParams(),
+      functionName: 'approveTransfer',
+      args: [proposalId],
+    });
   }
 
-  /**
-   * Reject a pending transfer
-   */
   async rejectTransfer(proposalId: bigint): Promise<Hash> {
-    // This would use the contract ABI to encode and send the transaction
-    throw new Error('Not implemented - requires contract ABI');
+    return await this.walletClient.writeContract({
+      ...this.writeParams(),
+      functionName: 'rejectTransfer',
+      args: [proposalId],
+    });
   }
 
-  /**
-   * Update the policy
-   */
   async setPolicy(policy: Partial<Policy>): Promise<Hash> {
-    // This would use the contract ABI to encode and send the transaction
-    throw new Error('Not implemented - requires contract ABI');
+    const current = (await this.publicClient.readContract({
+      address: this.walletAddress,
+      abi: agentWalletAbi,
+      functionName: 'getPolicy',
+    })) as [bigint, bigint, boolean, bigint, number, number];
+    const [maxAmount, dailyCap, requiresApproval, approvalThreshold] = current;
+    const targetsToAdd = policy.allowedTargets ?? [];
+    const targetsToRemove: Address[] = [];
+    const tokensToAdd = policy.allowedTokens ?? [];
+    const tokensToRemove: Address[] = [];
+    return await this.walletClient.writeContract({
+      ...this.writeParams(),
+      functionName: 'setPolicy',
+      args: [
+        policy.maxAmount ?? maxAmount,
+        policy.dailyCap ?? dailyCap,
+        policy.requiresApproval ?? requiresApproval,
+        policy.approvalThreshold ?? approvalThreshold,
+        targetsToAdd,
+        targetsToRemove,
+        tokensToAdd,
+        tokensToRemove,
+      ],
+    });
   }
 
-  /**
-   * Emergency withdraw all funds
-   */
   async emergencyWithdraw(to: Address, tokens: Address[]): Promise<Hash> {
-    // This would use the contract ABI to encode and send the transaction
-    throw new Error('Not implemented - requires contract ABI');
+    return await this.walletClient.writeContract({
+      ...this.writeParams(),
+      functionName: 'emergencyWithdraw',
+      args: [to, tokens],
+    });
   }
 
-  /**
-   * Pause the agent
-   */
   async pauseAgent(): Promise<Hash> {
-    // This would use the contract ABI to encode and send the transaction
-    throw new Error('Not implemented - requires contract ABI');
+    return await this.walletClient.writeContract({ ...this.writeParams(), functionName: 'pauseAgent' });
   }
 
-  /**
-   * Unpause the agent
-   */
   async unpauseAgent(): Promise<Hash> {
-    // This would use the contract ABI to encode and send the transaction
-    throw new Error('Not implemented - requires contract ABI');
+    return await this.walletClient.writeContract({ ...this.writeParams(), functionName: 'unpauseAgent' });
   }
 
-  /**
-   * Rotate the agent key
-   */
   async rotateAgentKey(newAgent: Address): Promise<Hash> {
-    // This would use the contract ABI to encode and send the transaction
-    throw new Error('Not implemented - requires contract ABI');
+    return await this.walletClient.writeContract({
+      ...this.writeParams(),
+      functionName: 'rotateAgentKey',
+      args: [newAgent],
+    });
   }
 
-  /**
-   * Initiate human key rotation with timelock
-   */
   async initiateHumanKeyRotation(newHuman: Address): Promise<Hash> {
-    // This would use the contract ABI to encode and send the transaction
-    throw new Error('Not implemented - requires contract ABI');
+    return await this.walletClient.writeContract({
+      ...this.writeParams(),
+      functionName: 'initiateHumanKeyRotation',
+      args: [newHuman],
+    });
   }
 
-  /**
-   * Complete human key rotation after timelock
-   */
   async completeHumanKeyRotation(): Promise<Hash> {
-    // This would use the contract ABI to encode and send the transaction
-    throw new Error('Not implemented - requires contract ABI');
+    return await this.walletClient.writeContract({
+      ...this.writeParams(),
+      functionName: 'completeHumanKeyRotation',
+    });
   }
 }
