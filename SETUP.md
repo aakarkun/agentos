@@ -56,6 +56,46 @@ forge test
 forge script script/Deploy.s.sol:DeployScript --rpc-url $RPC_URL --broadcast --verify
 ```
 
+#### Deploy the Factory (for "Create wallet" in the dashboard)
+
+The dashboard can create new agent wallets from the app if you deploy the factory and point the app at it.
+
+1. **Use the same env** as above: `packages/contracts/.env` with at least `PRIVATE_KEY` and your target network. For Base Sepolia you can set `RPC_URL=https://sepolia.base.org` (or use the chain’s default).
+
+2. **Deploy the factory** (from `packages/contracts`):
+
+   **Base Sepolia:**
+   ```bash
+   cd packages/contracts
+   forge script script/DeployFactory.s.sol:DeployFactoryScript --rpc-url https://sepolia.base.org --broadcast
+   ```
+
+   **Local Anvil:**
+   ```bash
+   # Terminal 1: start Anvil
+   anvil
+
+   # Terminal 2: deploy (use a private key from Anvil’s output)
+   cd packages/contracts
+   forge script script/DeployFactory.s.sol:DeployFactoryScript --rpc-url http://127.0.0.1:8545 --broadcast --private-key <YOUR_ANVIL_PRIVATE_KEY>
+   ```
+
+3. **Copy the deployed address** from the script output (`AgentWalletFactory deployed at: 0x...`).
+
+4. **Configure the dashboard** by adding **one** of these to `packages/contracts/.env`:
+   ```bash
+   NEXT_PUBLIC_FACTORY_ADDRESS=0xYourFactoryAddressHere
+   ```
+   or:
+   ```bash
+   FACTORY_ADDRESS=0xYourFactoryAddressHere
+   ```
+   The dashboard reads from `packages/contracts/.env`; `FACTORY_ADDRESS` is mapped to `NEXT_PUBLIC_FACTORY_ADDRESS` if the latter is not set.
+
+5. **Restart the dashboard** dev server so it picks up the new env (stop and run `pnpm dev` again in `packages/dashboard`).
+
+After that, the "Create wallet" flow in the app will use your factory and the "Factory not configured" message will go away.
+
 ### SDK
 
 ```bash

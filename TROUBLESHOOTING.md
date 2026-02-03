@@ -61,12 +61,29 @@ pnpm install
 
 ### Issue: WalletConnect project ID missing
 
-**Solution**: Create `.env.local` in `packages/dashboard/`:
+**Solution**: Create `.env.local` in `packages/dashboard/` (or set in root `.env`):
 ```
 NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID=your_project_id
 ```
 
 Get a project ID from [WalletConnect Cloud](https://cloud.walletconnect.com/).
+
+### Issue: "Origin http://localhost:3000 not found on Allowlist"
+
+WalletConnect/Reown requires your app origin to be on the project allowlist.
+
+**Solution**:
+1. Go to [Reown Cloud](https://cloud.reown.com) and sign in.
+2. Open your project (the one whose Project ID you use in `NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID`).
+3. Find **Domain** (or **Allowed origins** / **Allowlist**) and add `http://localhost:3000`.
+4. For production, add your app URL (e.g. `https://yourdomain.com`).
+5. Save.
+
+**If you already added the domain but still see the error:**
+
+- **Wait up to 15 minutes** – Reown can take up to 15 minutes to apply allowlist changes. Try again after waiting.
+- **Check Project ID matches** – Your `.env` must use the **exact** Project ID of the Reown project where you added the domain. In Reown Cloud, copy the full Project ID (e.g. the one shown as "Project ID e7...53") and set `NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID` to that value in `.env` or `.env.local`, then restart the dev server.
+- **Hard refresh** – Try a hard refresh (Ctrl+Shift+R or Cmd+Shift+R) or clear site data for `http://localhost:3000`, then reload.
 
 ## SDK Issues
 

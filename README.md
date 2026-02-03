@@ -48,7 +48,8 @@ open-wallet/
 
 ## Development
 
-See [docs/THREAT_MODEL.md](docs/THREAT_MODEL.md) for threat model and invariants.
+- [docs/THREAT_MODEL.md](docs/THREAT_MODEL.md) — threat model and invariants
+- [docs/ROADMAP.md](docs/ROADMAP.md) — current scope and next development (wallet creation from app is Phase 1.5)
 
 ## License
 
