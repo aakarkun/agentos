@@ -115,7 +115,7 @@ class OpenWalletIndexer {
 
   private async updateLastIndexedBlock(blockNumber: bigint) {
     await this.pool.query(
-      'INSERT INTO indexer_state (block_number, updated_at) VALUES ($1, NOW()) ON CONFLICT (id) DO UPDATE SET block_number = $1, updated_at = NOW()',
+      'INSERT INTO indexer_state (id, block_number, updated_at) VALUES (1, $1, NOW()) ON CONFLICT (id) DO UPDATE SET block_number = $1, updated_at = NOW()',
       [blockNumber.toString()]
     );
   }

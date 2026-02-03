@@ -2,6 +2,10 @@
 
 Thin event indexer for OpenWallet - Node worker + Postgres.
 
+## Prerequisites
+
+- **Postgres** must be running (e.g. `brew services start postgresql@14` or Docker).
+
 ## Setup
 
 1. Create a Postgres database:
@@ -9,23 +13,26 @@ Thin event indexer for OpenWallet - Node worker + Postgres.
 createdb openwallet
 ```
 
-2. Run migrations:
+2. Run migrations (from repo root or `apps/indexer`):
 ```bash
-pnpm migrate
+cd apps/indexer && pnpm migrate
 ```
 
-3. Set environment variables:
+3. Set environment variables (e.g. in `.env`):
 ```bash
-export DATABASE_URL=postgresql://localhost/openwallet
-export RPC_URL=https://sepolia.base.org
-export CHAIN_ID=84532
-export WALLET_ADDRESSES=0x...,0x...
+DATABASE_URL=postgresql://localhost/openwallet
+RPC_URL=https://sepolia.base.org
+CHAIN_ID=84532
+WALLET_ADDRESSES=0x...,0x...
+START_BLOCK=0   # optional, start from block 0 or a specific block
 ```
 
 4. Start the indexer:
 ```bash
 pnpm start
 ```
+
+If migration fails with `ECONNREFUSED`, start Postgres first.
 
 ## Database Schema
 
