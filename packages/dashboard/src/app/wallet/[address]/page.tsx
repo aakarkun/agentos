@@ -1,31 +1,25 @@
 'use client';
 
 import { useParams } from 'next/navigation';
-import { useAccount } from 'wagmi';
 import { WalletDetails } from '@/components/WalletDetails';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 export default function WalletPage() {
   const params = useParams();
-  const address = params.address as string;
-  const { isConnected } = useAccount();
+  const address = decodeURIComponent((params.address as string) || '') as `0x${string}`;
 
-  if (!isConnected) {
+  if (!address || !/^0x[a-fA-F0-9]{40}$/.test(address)) {
     return (
-      <main className="min-h-screen p-8">
-        <div className="max-w-7xl mx-auto">
-          <p className="text-center py-12">
-            Please connect your wallet to view wallet details
-          </p>
-        </div>
-      </main>
+      <Card className="border-destructive/50">
+        <CardHeader>
+          <CardTitle className="text-destructive">Invalid wallet address</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <p className="text-sm text-muted-foreground">The provided address is not a valid Ethereum address.</p>
+        </CardContent>
+      </Card>
     );
   }
 
-  return (
-    <main className="min-h-screen p-8">
-      <div className="max-w-7xl mx-auto">
-        <WalletDetails address={address} />
-      </div>
-    </main>
-  );
+  return <WalletDetails address={address} />;
 }
