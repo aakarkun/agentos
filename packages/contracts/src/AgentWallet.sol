@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.20;
 
-import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
+import "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 import "@openzeppelin/contracts/utils/structs/EnumerableSet.sol";
@@ -66,7 +66,7 @@ contract AgentWallet is ReentrancyGuard {
 
     address public agent;
     address public human;
-    Policy public policy;
+    Policy private _policy;
     
     bool public agentPaused;
     uint256 public proposalCounter;
@@ -148,17 +148,17 @@ contract AgentWallet is ReentrancyGuard {
         humanRotationDelay = 2 days; // Default 2-day timelock for human rotation
 
         // Initialize policy
-        policy.maxAmount = _maxAmount;
-        policy.dailyCap = _dailyCap;
-        policy.requiresApproval = false;
-        policy.approvalThreshold = _approvalThreshold;
+        _policy.maxAmount = _maxAmount;
+        _policy.dailyCap = _dailyCap;
+        _policy.requiresApproval = false;
+        _policy.approvalThreshold = _approvalThreshold;
 
         // Add allowed tokens
         for (uint256 i = 0; i < _allowedTokens.length; i++) {
-            policy.allowedTokens.add(_allowedTokens[i]);
+            _policy.allowedTokens.add(_allowedTokens[i]);
         }
         // Always allow ETH (address(0))
-        policy.allowedTokens.add(address(0));
+        _policy.allowedTokens.add(address(0));
     }
 
     // ============ Receive ============
@@ -187,27 +187,27 @@ contract AgentWallet is ReentrancyGuard {
         require(amount > 0, "AgentWallet: amount must be > 0");
         
         // Validate against policy
-        require(amount <= policy.maxAmount, "AgentWallet: amount exceeds maxAmount");
+        require(amount <= _policy.maxAmount, "AgentWallet: amount exceeds maxAmount");
         require(
-            policy.allowedTargets.length() == 0 || policy.allowedTargets.contains(to),
+            _policy.allowedTargets.length() == 0 || _policy.allowedTargets.contains(to),
             "AgentWallet: recipient not in allowedTargets"
         );
         require(
-            policy.allowedTokens.contains(token),
+            _policy.allowedTokens.contains(token),
             "AgentWallet: token not in allowedTokens"
         );
 
         // Check daily cap
-        if (policy.dailyCap > 0) {
+        if (_policy.dailyCap > 0) {
             uint256 today = block.timestamp / 1 days;
             require(
-                dailySpent[today] + amount <= policy.dailyCap,
+                dailySpent[today] + amount <= _policy.dailyCap,
                 "AgentWallet: would exceed daily cap"
             );
         }
 
         // Check if approval is required
-        bool needsApproval = policy.requiresApproval || amount > policy.approvalThreshold;
+        bool needsApproval = _policy.requiresApproval || amount > _policy.approvalThreshold;
 
         proposalId = ++proposalCounter;
         proposals[proposalId] = Proposal({
@@ -291,30 +291,30 @@ contract AgentWallet is ReentrancyGuard {
     ) external onlyHuman {
         require(_maxAmount > 0, "AgentWallet: maxAmount must be > 0");
         
-        policy.maxAmount = _maxAmount;
-        policy.dailyCap = _dailyCap;
-        policy.requiresApproval = _requiresApproval;
-        policy.approvalThreshold = _approvalThreshold;
+        _policy.maxAmount = _maxAmount;
+        _policy.dailyCap = _dailyCap;
+        _policy.requiresApproval = _requiresApproval;
+        _policy.approvalThreshold = _approvalThreshold;
 
         // Update allowed targets
         for (uint256 i = 0; i < _allowedTargetsToAdd.length; i++) {
-            policy.allowedTargets.add(_allowedTargetsToAdd[i]);
+            _policy.allowedTargets.add(_allowedTargetsToAdd[i]);
         }
         for (uint256 i = 0; i < _allowedTargetsToRemove.length; i++) {
-            policy.allowedTargets.remove(_allowedTargetsToRemove[i]);
+            _policy.allowedTargets.remove(_allowedTargetsToRemove[i]);
         }
 
         // Update allowed tokens (but always keep ETH)
         for (uint256 i = 0; i < _allowedTokensToAdd.length; i++) {
-            policy.allowedTokens.add(_allowedTokensToAdd[i]);
+            _policy.allowedTokens.add(_allowedTokensToAdd[i]);
         }
         for (uint256 i = 0; i < _allowedTokensToRemove.length; i++) {
             if (_allowedTokensToRemove[i] != address(0)) {
-                policy.allowedTokens.remove(_allowedTokensToRemove[i]);
+                _policy.allowedTokens.remove(_allowedTokensToRemove[i]);
             }
         }
         // Ensure ETH is always allowed
-        policy.allowedTokens.add(address(0));
+        _policy.allowedTokens.add(address(0));
 
         emit PolicyUpdated(keccak256(abi.encodePacked(_maxAmount, _dailyCap, _requiresApproval, _approvalThreshold)));
     }
@@ -415,7 +415,7 @@ contract AgentWallet is ReentrancyGuard {
         require(proposal.status == ProposalStatus.Approved, "AgentWallet: proposal not approved");
 
         // Update daily spent
-        if (policy.dailyCap > 0) {
+        if (_policy.dailyCap > 0) {
             uint256 today = block.timestamp / 1 days;
             dailySpent[today] += proposal.amount;
         }
@@ -458,12 +458,12 @@ contract AgentWallet is ReentrancyGuard {
         )
     {
         return (
-            policy.maxAmount,
-            policy.dailyCap,
-            policy.requiresApproval,
-            policy.approvalThreshold,
-            policy.allowedTargets.length(),
-            policy.allowedTokens.length()
+            _policy.maxAmount,
+            _policy.dailyCap,
+            _policy.requiresApproval,
+            _policy.approvalThreshold,
+            _policy.allowedTargets.length(),
+            _policy.allowedTokens.length()
         );
     }
 
@@ -472,7 +472,7 @@ contract AgentWallet is ReentrancyGuard {
      * @return Array of allowed target addresses
      */
     function getAllowedTargets() external view returns (address[] memory) {
-        return policy.allowedTargets.values();
+        return _policy.allowedTargets.values();
     }
 
     /**
@@ -480,7 +480,7 @@ contract AgentWallet is ReentrancyGuard {
      * @return Array of allowed token addresses
      */
     function getAllowedTokens() external view returns (address[] memory) {
-        return policy.allowedTokens.values();
+        return _policy.allowedTokens.values();
     }
 
     /**
