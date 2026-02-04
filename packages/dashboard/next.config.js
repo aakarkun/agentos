@@ -15,7 +15,7 @@ function loadContractsEnv() {
     const key = trimmed.slice(0, eq).trim();
     const value = trimmed.slice(eq + 1).trim().replace(/^["']|["']$/g, '');
     vars[key] = value;
-    if (key.startsWith('NEXT_PUBLIC_')) {
+    if (key.startsWith('NEXT_PUBLIC_') || key === 'SUPABASE_URL' || key === 'SUPABASE_ANON_KEY') {
       process.env[key] = value;
     }
   }

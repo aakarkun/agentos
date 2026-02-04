@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useAccount, useWriteContract, usePublicClient } from 'wagmi';
 import { parseEther } from 'viem';
 import { factoryAbi, getFactoryAddress } from '@/lib/factory';
@@ -26,6 +26,8 @@ const DEFAULT_USDC_BASE_SEPOLIA = '0x036CbD53842c5426634e7929541eC2318f3dCF7e' a
 
 export default function CreateWalletPage() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const returnTo = searchParams.get('returnTo');
   const { address: connectedAddress } = useAccount();
   const publicClient = usePublicClient();
   const factoryAddress = getFactoryAddress();
@@ -88,7 +90,11 @@ export default function CreateWalletPage() {
       const current = loadStoredWallets(STORAGE_KEY);
       const name = walletName.trim() || 'Main wallet';
       saveStoredWallets(STORAGE_KEY, [...current, { address: newWalletAddress, name }]);
-      router.push(`/wallet/${encodeURIComponent(newWalletAddress)}`);
+      if (returnTo) {
+        router.push(`${returnTo}?newWallet=${encodeURIComponent(newWalletAddress)}`);
+      } else {
+        router.push(`/wallet/${encodeURIComponent(newWalletAddress)}`);
+      }
     }
   };
 
