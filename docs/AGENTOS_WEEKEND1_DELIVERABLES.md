@@ -51,6 +51,7 @@
 
 - **supabase/migrations/001_agents_audit.sql** — agents, agent_wallets, audit_logs.
 - **supabase/migrations/002_invoices.sql** — invoices.
+- **supabase/migrations/003_agent_request_nonces.sql** — agent_request_nonces (replay guard for /api/agent/* signed requests).
 
 Run in Supabase SQL Editor (Dashboard → SQL Editor) or via Supabase CLI: `supabase db push`.
 

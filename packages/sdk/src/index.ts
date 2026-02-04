@@ -8,3 +8,4 @@ export * from './types';
 export * from './agent';
 export * from './human';
 export * from './policy';
+export { agentWalletAbi } from './abis';
