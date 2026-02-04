@@ -25,7 +25,8 @@
     "react-dom": "^19.0.0",
     "tailwind-merge": "^2.2.0",
     "viem": "^2.0.0",
-    "wagmi": "^2.5.0"
+    "wagmi": "^2.5.0",
+    "zod": "^3.23.0"
   },
   "devDependencies": {
     "@types/node": "^20.10.0",
