@@ -1,0 +1,15 @@
+---
+description: Use lowercase in commit messages
+globs: 
+alwaysApply: true
+---
+
+# Commit messages
+
+When writing commit messages (e.g. for a series of commits):
+
+- Use **lowercase** for the subject and body (e.g. `docs: add step0 repo scan`, `feat(agents): agent registry lite - db, api, ui`).
+- Keep conventional format: `type(scope): description`.
+- Exceptions: proper nouns, acronyms (e.g. API, SQL), or literal code/identifiers when needed.
+
+Example: `feat(pay): agentpay lite - invoices, pay page, receipt` not `AgentPay Lite - Invoices`.

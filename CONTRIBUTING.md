@@ -56,7 +56,7 @@ cp .env.example .env
 
 - **Solidity**: Follow [Solidity Style Guide](https://docs.soliditylang.org/en/latest/style-guide.html)
 - **TypeScript**: Use ESLint and Prettier (when added)
-- **Commits**: Use conventional commits format
+- **Commits**: Use conventional commits format (`type(scope): description`). Use **lowercase** for the description and body (e.g. `docs: add step0 repo scan` not `Add STEP0`). Exceptions: proper nouns, acronyms, or literal code.
 
 ## Testing
 
