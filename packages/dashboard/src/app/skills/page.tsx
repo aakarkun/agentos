@@ -38,7 +38,7 @@ export default function SkillsPage() {
           Skills
         </h1>
         <p className="mt-1 text-sm text-muted-foreground">
-          Skills that agents can use with OpenWallet. Store this config in your local OpenClaw (or agent) config so agents can check balances, list wallets, and propose or approve transfers.
+          Skills that agents can use with AgentOS. Store this config in your local OpenClaw (or agent) config so agents can check balances, list wallets, and propose or approve transfers.
         </p>
       </div>
 
@@ -47,7 +47,7 @@ export default function SkillsPage() {
         <CardHeader className="pb-2">
           <CardTitle className="text-base">Install with curl</CardTitle>
           <CardDescription>
-            Run this in your terminal to download the OpenWallet skills config and save it to <code className="text-xs rounded bg-muted px-1">~/.openclaw/skills/openwallet.json</code>. Override the directory with <code className="text-xs rounded bg-muted px-1">OPENCLAW_SKILLS_DIR</code>.
+            Run this in your terminal to download the AgentOS skills config and save it to <code className="text-xs rounded bg-muted px-1">~/.openclaw/skills/openwallet.json</code>. Override the directory with <code className="text-xs rounded bg-muted px-1">OPENCLAW_SKILLS_DIR</code>.
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-3">

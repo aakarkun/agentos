@@ -73,13 +73,13 @@ export function Landing() {
           <IconWallet className="h-10 w-10" />
         </div>
         <h1 className="text-4xl font-bold tracking-tight text-foreground md:text-5xl">
-          OpenWallet
+          AgentOS
         </h1>
         <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
           A shared wallet: <strong className="text-foreground">the agent spends</strong> (within limits), <strong className="text-foreground">the human funds and approves.</strong>
         </p>
         <p className="text-sm text-muted-foreground max-w-xl mx-auto">
-          Choose how you're using OpenWallet — the rest of the app will show you only what you need.
+          Choose how you're using AgentOS — the rest of the app will show you only what you need.
         </p>
 
         {/* Role selector - plain language */}

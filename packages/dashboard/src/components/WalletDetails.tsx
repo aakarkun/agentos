@@ -328,7 +328,7 @@ export function WalletDetails({ address }: WalletDetailsProps) {
             <p className="text-sm text-muted-foreground">{youAreLine}</p>
           ) : (
             <p className="text-sm text-muted-foreground">
-              You're the agent for this wallet. Here you see balance and limits. To send money, use the OpenWallet SDK in your code (e.g. your AI agent or app); see the <Link href="/skills" className="font-medium text-foreground underline underline-offset-2 hover:no-underline">Skills tab</Link> for how.
+              You're the agent for this wallet. Here you see balance and limits. To send money, use the AgentOS SDK in your code (e.g. your AI agent or app); see the <Link href="/skills" className="font-medium text-foreground underline underline-offset-2 hover:no-underline">Skills tab</Link> for how.
             </p>
           )}
         </div>

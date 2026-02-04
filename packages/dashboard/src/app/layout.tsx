@@ -7,8 +7,8 @@ import { AppShell } from '@/components/AppShell';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'OpenWallet - Dashboard',
-  description: 'Wallet infrastructure for AI agents. Agents earn, humans oversee.',
+  title: 'AgentOS - Dashboard',
+  description: 'Agent financial governance. Policies, approvals, audit. Agents earn, humans oversee.',
 };
 
 export default function RootLayout({

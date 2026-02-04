@@ -10,7 +10,9 @@ import { cn } from '@/lib/utils';
 
 const navItems = [
   { href: '/', label: 'Overview' },
+  { href: '/agents', label: 'Agents' },
   { href: '/wallets', label: 'Wallets' },
+  { href: '/pay', label: 'Pay' },
   { href: '/skills', label: 'Skills' },
   { href: '/setup', label: 'Setup' },
 ] as const;
@@ -31,7 +33,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             <span className="flex h-8 w-8 items-center justify-center rounded-full bg-primary/10 text-primary">
               <IconWallet className="h-5 w-5" />
             </span>
-            <span className="hidden sm:inline-block">OpenWallet</span>
+            <span className="hidden sm:inline-block">AgentOS</span>
           </Link>
 
           {/* Horizontal nav tabs */}
