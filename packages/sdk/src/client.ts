@@ -7,9 +7,9 @@ import { SDKConfig, Proposal, ProposalStatus } from './types';
 import { agentWalletAbi } from './abis';
 
 /**
- * OpenWallet SDK Client
+ * AgentOS SDK Client
  */
-export class OpenWalletSDK {
+export class AgentOSSDK {
   public readonly walletAddress: Address;
   public readonly publicClient: PublicClient;
   public readonly chain: Chain;
@@ -98,3 +98,6 @@ export class OpenWalletSDK {
     return await this.publicClient.getBalance({ address: this.walletAddress });
   }
 }
+
+/** @deprecated Use AgentOSSDK. Kept for backward compatibility. */
+export const OpenWalletSDK = AgentOSSDK;

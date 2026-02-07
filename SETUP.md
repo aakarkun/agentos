@@ -1,6 +1,6 @@
-# OpenWallet Setup Guide
+# AgentOS Setup Guide
 
-Quick setup guide for getting started with OpenWallet development.
+Quick setup guide for getting started with AgentOS development.
 
 ## Prerequisites
 
@@ -60,7 +60,7 @@ forge script script/Deploy.s.sol:DeployScript --rpc-url $RPC_URL --broadcast --v
 
 The dashboard can create new agent wallets from the app if you deploy the factory and point the app at it.
 
-1. **Use the same env** as above: `packages/contracts/.env` with at least `PRIVATE_KEY` and your target network. For Base Sepolia you can set `RPC_URL=https://sepolia.base.org` (or use the chain’s default).
+1. **Use the same env** as above: `packages/contracts/.env` with at least `PRIVATE_KEY` and your target network. For Base Sepolia you can set `RPC_URL=https://sepolia.base.org` (or use the chain's default).
 
 2. **Deploy the factory** (from `packages/contracts`):
 
@@ -75,7 +75,7 @@ The dashboard can create new agent wallets from the app if you deploy the factor
    # Terminal 1: start Anvil
    anvil
 
-   # Terminal 2: deploy (use a private key from Anvil’s output)
+   # Terminal 2: deploy (use a private key from Anvil's output)
    cd packages/contracts
    forge script script/DeployFactory.s.sol:DeployFactoryScript --rpc-url http://127.0.0.1:8545 --broadcast --private-key <YOUR_ANVIL_PRIVATE_KEY>
    ```
@@ -130,7 +130,7 @@ Open [http://localhost:3000](http://localhost:3000)
 cd apps/indexer
 
 # Set up Postgres database
-createdb openwallet
+createdb agentos
 
 # Run migrations
 pnpm migrate
@@ -171,10 +171,10 @@ forge install OpenZeppelin/openzeppelin-contracts@v5.0.2 --no-commit
 ## Project Structure
 
 ```
-open-wallet/
+agentos/
 ├── packages/
 │   ├── contracts/     # Solidity contracts (Foundry)
-│   ├── sdk/           # TypeScript SDK
+│   ├── sdk/           # TypeScript SDK (@agentos/sdk)
 │   └── dashboard/     # Next.js dashboard
 ├── apps/
 │   └── indexer/       # Event indexer

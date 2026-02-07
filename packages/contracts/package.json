@@ -1,8 +1,8 @@
 {
-  "name": "@open-wallet/contracts",
+  "name": "@agentos/contracts",
   "version": "0.1.0",
   "private": true,
-  "description": "OpenWallet smart contracts",
+  "description": "AgentOS smart contracts",
   "scripts": {
     "build": "forge build",
     "test": "forge test",

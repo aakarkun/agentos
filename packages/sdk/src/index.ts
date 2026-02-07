@@ -1,6 +1,6 @@
 /**
- * @open-wallet/sdk
- * TypeScript SDK for OpenWallet agent wallet infrastructure
+ * @agentos/sdk
+ * TypeScript SDK for AgentOS agent wallet infrastructure
  */
 
 export * from './client';

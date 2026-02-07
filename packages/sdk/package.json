@@ -1,7 +1,7 @@
 {
-  "name": "@open-wallet/sdk",
+  "name": "@agentos/sdk",
   "version": "0.1.0",
-  "description": "TypeScript SDK for OpenWallet agent wallet infrastructure",
+  "description": "TypeScript SDK for AgentOS agent wallet infrastructure",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",

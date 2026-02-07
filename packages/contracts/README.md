@@ -1,6 +1,6 @@
-# OpenWallet Contracts
+# AgentOS Contracts
 
-Smart contracts for OpenWallet agent wallet infrastructure.
+Smart contracts for AgentOS agent wallet infrastructure.
 
 ## Setup
 

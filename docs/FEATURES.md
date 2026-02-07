@@ -1,13 +1,13 @@
-# OpenWallet — Complete Feature Document
+# AgentOS — Complete Feature Document
 
 **As of:** Current codebase scan.  
-**Tagline:** Wallet infrastructure for AI agents. Agents earn, humans oversee.
+**Tagline:** Agent infrastructure: API, auth, wallets, payments, and tooling for AI agents.
 
 ---
 
 ## 1. Overview
 
-OpenWallet is **agent financial governance**: a shared wallet where an **agent** can spend within limits and a **human** funds the wallet and approves or rejects transfers above a threshold. It is not a generic wallet — it is a control plane for agent custody (policy layer, spending limits, human oversight).
+AgentOS is **agent infrastructure** (identity, API, financial governance): a shared wallet where an **agent** can spend within limits and a **human** funds the wallet and approves or rejects transfers above a threshold. It is not a generic wallet — it is a control plane for agent custody (policy layer, spending limits, human oversight).
 
 ### 1.1 Completed Scope (Phase 1 + Phase 1.5)
 
@@ -78,7 +78,7 @@ OpenWallet is **agent financial governance**: a shared wallet where an **agent**
 
 ## 3. SDK (`packages/sdk`)
 
-### 3.1 Client (`OpenWalletSDK`)
+### 3.1 Client (`AgentOSSDK`)
 
 - **Config:** `walletAddress`, optional `rpcUrl`, `chainId` (defaults Base Sepolia in dev, Base in prod).
 - **Methods:**
@@ -153,7 +153,7 @@ OpenWallet is **agent financial governance**: a shared wallet where an **agent**
 
 ### 4.5 Skills (`/skills`)
 
-- **Purpose:** Document and distribute OpenWallet skills for agents (e.g. OpenClaw).
+- **Purpose:** Document and distribute AgentOS skills for agents (e.g. OpenClaw).
 - **Install:** curl one-liner to run install script; script fetches `/api/skills/config` and saves to `~/.openclaw/skills/openwallet.json` (or `OPENCLAW_SKILLS_DIR`).
 - **Download config:** Direct link to `/api/skills/config` (JSON).
 - **Listed skills (read):** get_balance, list_wallets, get_policy, get_pending_proposals.
@@ -168,7 +168,7 @@ OpenWallet is **agent financial governance**: a shared wallet where an **agent**
 
 | Route | Method | Description |
 |-------|--------|-------------|
-| `/api/skills/config` | GET | Returns OpenWallet skills config (JSON); optional `dashboardUrl` from request origin. |
+| `/api/skills/config` | GET | Returns AgentOS skills config (JSON); optional `dashboardUrl` from request origin. |
 | `/api/skills/install` | GET | Returns shell script that downloads config to `~/.openclaw/skills/openwallet.json`. |
 
 ### 4.8 UI / UX

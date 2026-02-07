@@ -1,4 +1,4 @@
-# OpenWallet Roadmap
+# AgentOS Roadmap
 
 ## Current scope (Phase 1 — MVP)
 

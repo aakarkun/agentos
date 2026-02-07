@@ -1,6 +1,6 @@
-# OpenWallet Indexer
+# AgentOS Indexer
 
-Thin event indexer for OpenWallet - Node worker + Postgres.
+Thin event indexer for AgentOS - Node worker + Postgres.
 
 ## Prerequisites
 
@@ -10,7 +10,7 @@ Thin event indexer for OpenWallet - Node worker + Postgres.
 
 1. Create a Postgres database:
 ```bash
-createdb openwallet
+createdb agentos
 ```
 
 2. Run migrations (from repo root or `apps/indexer`):
@@ -20,7 +20,7 @@ cd apps/indexer && pnpm migrate
 
 3. Set environment variables (e.g. in `.env`):
 ```bash
-DATABASE_URL=postgresql://localhost/openwallet
+DATABASE_URL=postgresql://localhost/agentos
 RPC_URL=https://sepolia.base.org
 CHAIN_ID=84532
 WALLET_ADDRESSES=0x...,0x...
