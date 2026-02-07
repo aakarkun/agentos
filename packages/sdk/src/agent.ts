@@ -1,4 +1,4 @@
-import { PublicClient, WalletClient, Address, Hash, encodeFunctionData } from 'viem';
+import { PublicClient, WalletClient, Address, Hash } from 'viem';
 import { agentWalletAbi } from './abis';
 
 type WalletClientWithAccount = WalletClient & { account: { address: Address; type?: string } };

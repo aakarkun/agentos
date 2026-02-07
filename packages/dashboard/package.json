@@ -1,5 +1,5 @@
 {
-  "name": "@open-wallet/dashboard",
+  "name": "@agentos/dashboard",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -9,9 +9,10 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@supabase/supabase-js": "^2.45.0",
     "@hugeicons/core-free-icons": "^1.0.0",
     "@hugeicons/react": "^1.1.4",
-    "@open-wallet/sdk": "workspace:*",
+    "@agentos/sdk": "workspace:*",
     "@radix-ui/react-slot": "^1.1.0",
     "@radix-ui/react-tabs": "^1.1.0",
     "@rainbow-me/rainbowkit": "^2.0.0",
@@ -24,7 +25,8 @@
     "react-dom": "^19.0.0",
     "tailwind-merge": "^2.2.0",
     "viem": "^2.0.0",
-    "wagmi": "^2.5.0"
+    "wagmi": "^2.5.0",
+    "zod": "^3.23.0"
   },
   "devDependencies": {
     "@types/node": "^20.10.0",

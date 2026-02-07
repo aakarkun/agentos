@@ -15,7 +15,7 @@ function loadContractsEnv() {
     const key = trimmed.slice(0, eq).trim();
     const value = trimmed.slice(eq + 1).trim().replace(/^["']|["']$/g, '');
     vars[key] = value;
-    if (key.startsWith('NEXT_PUBLIC_')) {
+    if (key.startsWith('NEXT_PUBLIC_') || key === 'SUPABASE_URL' || key === 'SUPABASE_ANON_KEY' || key === 'AGENTOS_SERVER_SIGNER_PRIVATE_KEY') {
       process.env[key] = value;
     }
   }
@@ -38,7 +38,7 @@ loadContractsEnv();
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  transpilePackages: ['@open-wallet/sdk'],
+  transpilePackages: ['@agentos/sdk'],
 };
 
 module.exports = nextConfig;

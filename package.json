@@ -1,8 +1,8 @@
 {
-  "name": "open-wallet",
+  "name": "agentos",
   "version": "0.1.0",
   "private": true,
-  "description": "Wallet infrastructure for AI agents. Agents earn, humans oversee.",
+  "description": "Agent infrastructure: API, auth, wallets, payments, and tooling for AI agents.",
   "pnpm": {
     "overrides": {
       "@next/swc": "16.1.6",

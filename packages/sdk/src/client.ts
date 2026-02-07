@@ -1,4 +1,4 @@
-import { createPublicClient, http, PublicClient, Address, Chain } from 'viem';
+import { createPublicClient, http, PublicClient, Address, Chain, WalletClient } from 'viem';
 import { base, baseSepolia } from 'viem/chains';
 import { AgentAPI } from './agent';
 import { HumanAPI } from './human';
@@ -7,9 +7,9 @@ import { SDKConfig, Proposal, ProposalStatus } from './types';
 import { agentWalletAbi } from './abis';
 
 /**
- * OpenWallet SDK Client
+ * AgentOS SDK Client
  */
-export class OpenWalletSDK {
+export class AgentOSSDK {
   public readonly walletAddress: Address;
   public readonly publicClient: PublicClient;
   public readonly chain: Chain;
@@ -33,14 +33,22 @@ export class OpenWalletSDK {
 
   asAgent(walletClient: { account?: { address: Address }; writeContract: unknown }): AgentAPI {
     if (!this._agent) {
-      this._agent = new AgentAPI(this.publicClient, walletClient as any, this.walletAddress);
+      this._agent = new AgentAPI(
+        this.publicClient,
+        walletClient as WalletClient & { account: { address: Address } },
+        this.walletAddress
+      );
     }
     return this._agent;
   }
 
   asHuman(walletClient: { account?: { address: Address }; writeContract: unknown }): HumanAPI {
     if (!this._human) {
-      this._human = new HumanAPI(this.publicClient, walletClient as any, this.walletAddress);
+      this._human = new HumanAPI(
+        this.publicClient,
+        walletClient as WalletClient & { account: { address: Address } },
+        this.walletAddress
+      );
     }
     return this._human;
   }
@@ -98,3 +106,6 @@ export class OpenWalletSDK {
     return await this.publicClient.getBalance({ address: this.walletAddress });
   }
 }
+
+/** @deprecated Use AgentOSSDK. Kept for backward compatibility. */
+export const OpenWalletSDK = AgentOSSDK;

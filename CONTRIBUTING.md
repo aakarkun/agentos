@@ -1,13 +1,13 @@
-# Contributing to OpenWallet
+# Contributing to AgentOS
 
-Thank you for your interest in contributing to OpenWallet!
+Thank you for your interest in contributing to AgentOS!
 
 ## Development Setup
 
 1. Clone the repository:
 ```bash
 git clone <repo-url>
-cd open-wallet
+cd agentos
 ```
 
 2. Install dependencies:
@@ -36,8 +36,10 @@ cp .env.example .env
 ## Project Structure
 
 - `packages/contracts/` - Solidity contracts (Foundry)
-- `packages/sdk/` - TypeScript SDK
+- `packages/sdk/` - TypeScript SDK (@agentos/sdk)
 - `packages/dashboard/` - Next.js dashboard
+- `packages/agentos-client/` - Node client for Agent API
+- `packages/agentos-eliza-adapter/` - Lexa/Eliza-ready adapter
 - `apps/indexer/` - Event indexer
 - `docs/` - Documentation
 
@@ -56,7 +58,7 @@ cp .env.example .env
 
 - **Solidity**: Follow [Solidity Style Guide](https://docs.soliditylang.org/en/latest/style-guide.html)
 - **TypeScript**: Use ESLint and Prettier (when added)
-- **Commits**: Use conventional commits format
+- **Commits**: Use conventional commits format (`type(scope): description`). Use **lowercase** for the description and body (e.g. `docs: add step0 repo scan` not `Add STEP0`). Exceptions: proper nouns, acronyms, or literal code.
 
 ## Testing
 

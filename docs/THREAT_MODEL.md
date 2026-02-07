@@ -1,6 +1,6 @@
-# OpenWallet Threat Model
+# AgentOS Threat Model
 
-This document outlines the threat model, assumptions, and invariants for OpenWallet agent wallet infrastructure.
+This document outlines the threat model, assumptions, and invariants for AgentOS agent wallet infrastructure.
 
 ## Assumptions
 

@@ -1,0 +1,55 @@
+// AgentOS Weekend 1 — Prisma fallback (SQLite) if Supabase is not used.
+// Run: pnpm add -D prisma @prisma/client && pnpm exec prisma generate
+// Migrate: pnpm exec prisma migrate dev
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Agent {
+  id             String   @id @default(uuid())
+  name           String
+  owner_address  String
+  created_at     DateTime @default(now())
+  agent_wallets  AgentWallet[]
+  audit_logs     AuditLog[]
+  invoices       Invoice[]
+}
+
+model AgentWallet {
+  id              String   @id @default(uuid())
+  agent_id        String
+  agent           Agent    @relation(fields: [agent_id], references: [id], onDelete: Cascade)
+  wallet_address  String
+  chain_id        Int
+  label           String   @default("Main")
+  created_at      DateTime @default(now())
+  @@unique([agent_id, wallet_address, chain_id])
+}
+
+model AuditLog {
+  id        String   @id @default(uuid())
+  agent_id  String
+  agent     Agent    @relation(fields: [agent_id], references: [id], onDelete: Cascade)
+  type      String
+  payload   String?  // JSON string; Supabase uses jsonb
+  created_at DateTime @default(now())
+}
+
+model Invoice {
+  id                 String   @id @default(uuid())
+  agent_id           String
+  agent              Agent    @relation(fields: [agent_id], references: [id], onDelete: Cascade)
+  to_wallet_address  String
+  amount             String
+  token_address      String?
+  chain_id           Int
+  status             String   @default("issued") // issued | paid | void
+  tx_hash            String?
+  created_at         DateTime @default(now())
+}

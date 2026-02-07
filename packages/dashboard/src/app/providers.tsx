@@ -36,9 +36,10 @@ function getWagmiConfig() {
     (process.env.NEXT_PUBLIC_RPC_URL ?? '').includes('127.0.0.1');
   const chains = isLocal ? [localhost, baseSepolia, base] : [baseSepolia, base];
   const config = getDefaultConfig({
-    appName: 'OpenWallet',
+    appName: 'AgentOS',
     projectId: hasValidProjectId ? projectId : '00000000000000000000000000000000',
-    chains,
+    // Cast: getDefaultConfig expects chains from wagmi; defineChain + baseSepolia/base satisfy at runtime
+    chains: chains as unknown as [typeof baseSepolia, typeof base],
     transports: {
       [localhost.id]: http('http://127.0.0.1:8545'),
       [baseSepolia.id]: http(),

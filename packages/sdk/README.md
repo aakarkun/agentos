@@ -1,11 +1,11 @@
-# @open-wallet/sdk
+# @agentos/sdk
 
-TypeScript SDK for OpenWallet agent wallet infrastructure.
+TypeScript SDK for AgentOS agent wallet infrastructure.
 
 ## Installation
 
 ```bash
-pnpm add @open-wallet/sdk viem
+pnpm add @agentos/sdk viem
 ```
 
 ## Usage
@@ -13,11 +13,11 @@ pnpm add @open-wallet/sdk viem
 ### Initialize SDK
 
 ```typescript
-import { OpenWalletSDK } from '@open-wallet/sdk';
+import { AgentOSSDK } from '@agentos/sdk';
 import { createWalletClient, http } from 'viem';
 import { baseSepolia } from 'viem/chains';
 
-const sdk = new OpenWalletSDK({
+const sdk = new AgentOSSDK({
   walletAddress: '0x...',
   rpcUrl: 'https://sepolia.base.org',
 });

@@ -13,7 +13,7 @@ npm install -g pnpm
 
 The contracts package tries to install OpenZeppelin dependencies via Foundry. If Foundry is not installed, this will fail.
 
-**Solution**: 
+**Solution**:
 1. Install Foundry first (see below)
 2. Or skip Foundry dependencies for now - they're optional for initial setup
 
@@ -55,7 +55,7 @@ forge install OpenZeppelin/openzeppelin-contracts@v5.0.2 --no-commit
 
 **Solution**: Make sure you've run `pnpm install` from the root:
 ```bash
-cd /Users/kusgautam/open-wallet
+cd /path/to/agentos
 pnpm install
 ```
 
@@ -99,7 +99,7 @@ The SDK requires the contract ABI to function fully. After deploying contracts:
 
 ### Issue: Postgres connection failed
 
-**Solution**: 
+**Solution**:
 1. Make sure Postgres is running:
 ```bash
 brew services start postgresql@14  # or your version
@@ -107,12 +107,12 @@ brew services start postgresql@14  # or your version
 
 2. Create the database:
 ```bash
-createdb openwallet
+createdb agentos
 ```
 
 3. Set DATABASE_URL in `.env`:
 ```
-DATABASE_URL=postgresql://localhost/openwallet
+DATABASE_URL=postgresql://localhost/agentos
 ```
 
 4. Run migrations:
@@ -127,7 +127,7 @@ pnpm migrate
 
 **Solution**: Make sure you're running commands from the monorepo root:
 ```bash
-cd /Users/kusgautam/open-wallet
+cd /path/to/agentos
 pnpm install
 ```
 
