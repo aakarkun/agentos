@@ -4,6 +4,23 @@
 
 **Positioning:** AgentOS is not just a wallet — it's **agent infrastructure**. A control plane for agent identity, custody, and payments (signed Agent API, invoices, transfers, human oversight).
 
+## Status
+
+[![version](https://img.shields.io/badge/version-0.1.0-blue)](./package.json)
+[![node](https://img.shields.io/badge/node-%3E%3D20.9-339933?logo=nodedotjs)](./package.json)
+[![pnpm](https://img.shields.io/badge/pnpm-%3E%3D8-F69220?logo=pnpm)](./package.json)
+[![license](https://img.shields.io/badge/license-MIT-green)](#license)
+
+Signed Agent API, multi-sig wallets, invoices & transfers, and human oversight — one stack. Dashboard, SDK (`@agentos/sdk`), Agent API (health, handshake, me, audit, invoices, transfers), and Foundry contracts on Base.
+
+### News
+
+| Date | Update |
+|------|--------|
+| 2026-02-07 | Rebrand complete: OpenWallet → AgentOS (docs, packages, SDK). |
+| — | Phase 1.5: Factory + create wallet from app; Phase 2: x402 middleware. |
+| — | [ROADMAP](docs/ROADMAP.md) · [THREAT_MODEL](docs/THREAT_MODEL.md) · [Agent API example](docs/agent-api-example.md) |
+
 ## Architecture
 
 - **Contracts:** Multi-sig agent wallet with policy layer, spending limits, and human oversight
