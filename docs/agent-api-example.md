@@ -4,6 +4,29 @@ Minimal guide to call `/api/agent/*` with **signed message auth**.
 
 **Node client (Eliza integration):** Use `@agentos/client` in this repo (`packages/agentos-client`). It builds the canonical message, SHA-256 body, signs with the agent wallet, and calls `/api/agent/*`. See `packages/agentos-client/README.md`.
 
+---
+
+## Quick test (Node)
+
+Use `@agentos/client` for signed calls. Health is unauthenticated.
+
+```ts
+const BASE = 'http://localhost:3000'; // or your dashboard URL
+
+// 1. GET /api/agent/health — no auth
+const healthRes = await fetch(`${BASE}/api/agent/health`);
+const health = await healthRes.json();
+console.log(health); // { ok: true, data: { name, version, now, serverSignerEnabled, replayStrict } }
+
+// 2. Signed: handshake + me (use @agentos/client)
+import { createAgentOSClient } from '@agentos/client';
+
+const client = createAgentOSClient({ baseUrl: BASE, privateKey: '0x...' as `0x${string}` });
+const handshakeData = await client.request('/handshake', 'GET');
+const meData = await client.getMe();
+console.log(handshakeData, meData);
+```
+
 ## Auth: canonical message + headers
 
 Every request must send:
