@@ -16,7 +16,7 @@ import {
 } from '@/components/ui/card';
 import { parseEther } from 'viem';
 import type { Address } from 'viem';
-import { ProposalStatus } from '@open-wallet/sdk';
+import { ProposalStatus } from '@agentos/sdk';
 import { getStoredRole } from '@/lib/role';
 
 interface WalletDetailsProps {

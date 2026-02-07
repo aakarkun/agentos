@@ -38,7 +38,7 @@ loadContractsEnv();
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  transpilePackages: ['@open-wallet/sdk'],
+  transpilePackages: ['@agentos/sdk'],
 };
 
 module.exports = nextConfig;

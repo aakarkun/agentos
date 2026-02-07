@@ -6,7 +6,7 @@ import { requireAgent, listLinkedWallets, isLinkedWallet } from '@/lib/agent-api
 import { hasServerSigner, getServerSignerPrivateKey } from '@/lib/agent-api/env';
 import { createServerPublicClient, createServerWalletClient } from '@/lib/agent-api/chain';
 import { ok, fail, status } from '@/lib/agent-api/response';
-import { agentWalletAbi } from '@open-wallet/sdk';
+import { agentWalletAbi } from '@agentos/sdk';
 import type { Address } from 'viem';
 
 const ZERO = '0x0000000000000000000000000000000000000000' as const;
