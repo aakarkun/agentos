@@ -16,7 +16,7 @@ jobs:
       - name: Install dependencies
         run: |
           cd packages/contracts
-          forge install OpenZeppelin/openzeppelin-contracts@v5.0.2 --no-commit
+          forge install OpenZeppelin/openzeppelin-contracts@v5.0.2
       - name: Run tests
         run: |
           cd packages/contracts

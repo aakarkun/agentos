@@ -8,7 +8,7 @@
     "test": "forge test",
     "test:coverage": "forge coverage",
     "clean": "forge clean",
-    "install:deps": "forge install OpenZeppelin/openzeppelin-contracts@v5.0.2 --no-commit",
+    "install:deps": "forge install OpenZeppelin/openzeppelin-contracts@v5.0.2",
     "postinstall": "echo 'Run pnpm install:deps in packages/contracts to install Foundry dependencies'"
   },
   "keywords": [

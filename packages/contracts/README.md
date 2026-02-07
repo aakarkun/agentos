@@ -10,7 +10,7 @@ curl -L https://foundry.paradigm.xyz | bash
 foundryup
 
 # Install dependencies
-forge install OpenZeppelin/openzeppelin-contracts@v5.0.2 --no-commit
+forge install OpenZeppelin/openzeppelin-contracts@v5.0.2
 
 # Build
 forge build
